@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    {% block head %}{% endblock %}
+    {% load staticfiles %}
+    {% load bootstrap3 %}
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery=0 %}
+    <link href="{% static 'testapp/extra.css' %}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+
+</head>
+<body>
+    {% block page %}{% endblock %}
+</body>
+</html>

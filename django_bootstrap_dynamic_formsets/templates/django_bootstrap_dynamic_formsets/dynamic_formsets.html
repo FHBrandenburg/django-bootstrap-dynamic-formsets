@@ -1,0 +1,44 @@
+{% load bootstrap3 %}
+{% load bootstrap_dynamic_formsets %}
+{% load staticfiles %}
+
+{% bootstrap_dynamic_formset_js %}
+
+<link href="{% static 'django_bootstrap_dynamic_formsets/extra.css' %}" rel="stylesheet">
+
+<div class="display:none" id="empty-form">
+    <div class="{{ form_wrapper }} sort-item">
+        {% bootstrap_form formset.empty_form layout=layout%}
+        <div>
+            {% if can_order %}
+                <button type="button" class="btn btn-default btn-sm sort-handle glyph-button"><span class="glyphicon glyphicon-move" style="vertical-align:middle"></span></button>
+                <button type="button" class="btn btn-default btn-sm up-form glyph-button"><span class="glyphicon glyphicon-arrow-up" style="vertical-align:middle"></span></button>
+                <button type="button" class="btn btn-default btn-sm down-form glyph-button"><span class="glyphicon glyphicon-arrow-down" style="vertical-align:middle"></span></button>
+            {% endif %}
+            {% if can_delete %}
+                <button type="button" class="btn btn-default btn-sm delete-form glyph-button"><span class="glyphicon glyphicon-trash" style="vertical-align:middle"></span></button>
+            {% endif %}
+            <button type="button" class="btn btn-default btn-sm add-form glyph-button"><span class="glyphicon glyphicon-plus" style="vertical-align:middle"></span></button>
+        </div>
+    </div>
+</div>
+
+<div id="sortable">
+    {{ formset.management_form }}
+    {% for form in formset %}
+        <div class="{{ form_wrapper }} sort-item">
+            {% bootstrap_form form layout=layout%}
+            <div>
+                {% if can_order %}
+                    <button type="button" class="btn btn-default btn-sm sort-handle glyph-button"><span class="glyphicon glyphicon-move" style="vertical-align:middle"></span></button>
+                    <button type="button" class="btn btn-default btn-sm up-form glyph-button"><span class="glyphicon glyphicon-arrow-up" style="vertical-align:middle"></span></button>
+                    <button type="button" class="btn btn-default btn-sm down-form glyph-button"><span class="glyphicon glyphicon-arrow-down" style="vertical-align:middle"></span></button>
+                {% endif %}
+                {% if can_delete %}
+                    <button type="button" class="btn btn-default btn-sm delete-form glyph-button"><span class="glyphicon glyphicon-trash" style="vertical-align:middle"></span></button>
+                {% endif %}
+                <button type="button" class="btn btn-default btn-sm add-form glyph-button"><span class="glyphicon glyphicon-plus" style="vertical-align:middle"></span></button>
+            </div>
+        </div>
+    {% endfor %}
+</div>

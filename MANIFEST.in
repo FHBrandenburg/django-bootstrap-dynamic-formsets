@@ -1,0 +1,4 @@
+include LICENSE
+include README.rst
+recursive-include django_bootstrap_dynamic_formsets/templates *
+recursive-include django_bootstrap_dynamic_formsets/static *

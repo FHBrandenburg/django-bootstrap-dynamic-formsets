@@ -1,0 +1,171 @@
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        // Checks if input is empty or, in case of a checkbox, unchecked
+        var checkEmpty = function ($inputToCheck) {
+            var isEmpty = false;
+            if ($inputToCheck.attr('type') === 'checkbox') {
+                isEmpty = !$inputToCheck.prop('checked');
+            } else {
+                $inputToCheck.filter(function () {
+                    isEmpty = !this.value;
+                    return false;
+                });
+            }
+            return isEmpty;
+        };
+
+        //Checks if all inputs in this container are empty/unchecked
+        var allEmpty = function ($toCheck) {
+            var isEmpty = true;
+            $toCheck.find('input').each(function () {
+                if (!checkEmpty($(this))) {
+                    isEmpty = false;
+                    return false;
+                }
+            });
+            return isEmpty;
+        };
+
+
+        //Writes the correct current order in the order form fields
+        var correctOrder = function () {
+            var localSortItemCounter = 1;
+            $("[id$=ORDER]").each(function () {
+                $(this).attr('value', localSortItemCounter);
+                localSortItemCounter++;
+            });
+        };
+
+        //Hide "Order" and "Delete" field/checkbox
+        $("[id$=ORDER]").parents(".form-group").hide();
+        $("[id$=DELETE]").parents(".form-group").hide();
+
+        //Holds an empty form
+        var $emptyForm = $($('#empty-form').remove().html());
+
+        var $sortItem = $('.sort-item');
+
+        //Disable Up button on first and Down button on last form
+        var setUpDownButtons = function () {
+            $sortItem = $('.sort-item');
+            $sortItem.find(".up-form, .down-form").each(function () {
+                $(this).prop("disabled", false);
+            });
+            $sortItem.first().find(".up-form").prop("disabled", true);
+            $sortItem.last().find(".down-form").prop("disabled", true);
+        };
+
+
+        //Hide forms that are marked for deletion
+        $sortItem.find('[id$=DELETE]').each(function () {
+            if ($(this).prop('checked')) {
+                $(this).parents(".sort-item").hide();
+            }
+        });
+
+
+        //Counts the number of forms
+        var sortItemCounter = 0;
+        $sortItem.each(function () {
+            sortItemCounter++;
+        });
+        //$('body').prepend('<p>Count: ' + sortItemCounter + '</p>');
+
+        //Mark initial forms as such
+        var numInitialForms = $('#id_form-INITIAL_FORMS').val();
+        var i = 0;
+        $sortItem.each(function () {
+            if (i < numInitialForms) {
+                $(this).addClass("initial-form");
+                i++;
+            } else {
+                return false;
+            }
+        });
+
+        var numTotalForms = $('#id_form-TOTAL_FORMS').val();
+        //Fix order (important if page reloads after validation failed)
+        for (i = 1; i < numTotalForms; i++) {
+            $sortItem.find('[id$=ORDER][value=' + (i + 1) + ']').parents(".sort-item").insertAfter($sortItem.find('[id$=ORDER][value=' + i + ']').parents(".sort-item"));
+        }
+
+
+        //Set up sortable jQuery UI interaction
+        {% if can_order %}
+            var $sortable = $('#sortable');
+
+            $sortable.sortable({
+                items: ".sort-item",
+                axis: "y",
+                scrollSensitivity: 100,
+                scrollSpeed: 5,
+                tolerance: "intersect",
+                handle: ".sort-handle",
+                cancel: "input,textarea,select,option"
+            });
+            $sortable.disableSelection();
+            $sortable.on("sortupdate", function (event, ui) {
+                setUpDownButtons();
+            });
+            setUpDownButtons();
+
+            $(document).on('click', '.up-form', function () {
+                var $parentSortItem = $(this).parents(".sort-item");
+                $parentSortItem.insertBefore($parentSortItem.prev());
+                setUpDownButtons();
+            });
+
+            $(document).on('click', '.down-form', function () {
+                var $parentSortItem = $(this).parents(".sort-item");
+                $parentSortItem.insertAfter($parentSortItem.next());
+                setUpDownButtons();
+            });
+
+
+        {% endif %}
+
+
+
+        // Remove form
+        $(document).on('click', '.delete-form', function () {
+            var $parentSortItem = $(this).parents(".sort-item");
+            if ($parentSortItem.hasClass('initial-form')) {
+                $parentSortItem.effect('drop');
+                $parentSortItem.find('[id$=DELETE]').prop('checked', true);
+            } else {
+                $parentSortItem.effect('drop', function () {
+                    $(this).remove();
+                    sortItemCounter--;
+                    $('#id_form-TOTAL_FORMS').attr('value', sortItemCounter);
+                });
+            }
+        });
+
+        // Add form
+        $(document).on('click', '.add-form', function () {
+            var formCopy = $emptyForm.clone();
+            var formCopyString = formCopy.html().replace(/__prefix__/g, "" + sortItemCounter);
+            formCopy.html(formCopyString);
+            sortItemCounter++;
+            $(this).parents(".sort-item").after(formCopy);
+            $('#id_form-TOTAL_FORMS').attr('value', sortItemCounter);
+        });
+
+        //Submit formset
+        $('#form-submit').click(function (e) {
+            e.preventDefault();
+            $('.sort-item').each(function () {
+                if (allEmpty($(this))) {
+                    $(this).remove();
+                }
+            });
+            {% if can_order %}
+                correctOrder();
+            {% endif %}
+            $(this).parents("form").submit();
+        });
+
+    });
+
+</script>

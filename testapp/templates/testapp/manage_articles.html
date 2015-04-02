@@ -1,0 +1,14 @@
+{% extends "testapp/page.html" %}
+{% load bootstrap3 %}
+{% load bootstrap_dynamic_formsets %}
+
+{% block content %}
+
+<form class="form-horizontal" method="post" action="">
+    {% csrf_token %}
+    {% bootstrap_dynamic_formset formset can_order=True can_delete=True layout="horizontal"%}
+    <button type="submit" id="form-submit" class="btn btn-success">Submit</button>
+
+</form>
+
+{% endblock %}

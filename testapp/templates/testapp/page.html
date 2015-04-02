@@ -1,0 +1,17 @@
+{% extends "testapp/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block page %}
+    <div id="content" class="container">
+        <h1>Albums</h1>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {% bootstrap_messages %}
+                {% block content %}{% endblock %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

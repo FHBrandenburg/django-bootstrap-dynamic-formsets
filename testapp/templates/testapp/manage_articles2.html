@@ -1,0 +1,346 @@
+{% extends "testapp/page.html" %}
+{% load bootstrap3 %}
+{% load bootstrap_dynamic_formsets %}
+
+{% block content %}
+
+    <div class="container">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://ijcai-15.org/">IJCAI2015</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-justified" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="http://localhost:8003/accounts/auth/done/">Home</a></li>
+                    <li><a href="http://localhost:8003/configuration/">Configuration</a></li>
+                    <li class=" dropdown">
+                        <a href="http://localhost:8003/author/paper/add/#" class="dropdown-toggle"
+                           data-toggle="dropdown">PC Chair<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="nav" href="http://localhost:8003/chair/person/list/">Person List</a></li>
+                            <li><a class="nav" href="http://localhost:8003/chair/paper/list/">Paper List</a></li>
+                            <li class="divider"></li>
+                            <li><a class="nav" href="http://localhost:8003/paper/discuss/list/">Paper Discussion</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <form class="navbar-form" role="search">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search"
+                                       data-cip-id="cIPJQ342845639">
+                            </div>
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </form>
+                    </li>
+
+
+                    <li class=" dropdown">
+                        <a href="http://localhost:8003/author/paper/add/#" class="dropdown-toggle"
+                           data-toggle="dropdown">Manage your Account <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="nav" href="http://localhost:8003/accounts/email/">Manage Email Addresses</a>
+                            </li>
+                            <li><a class="nav" href="http://localhost:8003/accounts/social/connections/">Manage Social
+                                Logins</a>
+                            </li>
+                            <li><a class="nav" href="http://localhost:8003/accounts/password/change/">Change
+                                Password</a></li>
+                            <li><a href="http://localhost:8003/author/paper/add/#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="http://localhost:8003/accounts/logout/">
+                        <strong>Logout (Thomas Preuss) </strong>
+                    </a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+    </div>
+    <div class="container">
+        <a href="http://ijcai-15.org/"><img class="img-responsive img-rounded"
+                                            src="./IJCAI2015_files/IJCAILogo-png.png"></a>
+    </div>
+
+    <div class="container-fluid page-header">
+        <h1>
+            Paper Details
+        </h1>
+    </div>
+
+    <div class="container-fluid">
+
+
+    <form enctype="multipart/form-data" action="" role="form" method="post" class="form-horizontal">
+    <input type="hidden" name="csrfmiddlewaretoken" value="0ny2rFB0p7r5DLhYPxzh01K2ojMQtJKJ">
+    x
+
+    {% bootstrap_dynamic_formset formset can_order=True can_delete=True layout="horizontal" %}
+
+    <div class="form-group"><label class="col-md-2 control-label" for="id_title">Title</label>
+
+        <div class="col-md-4"><input class="form-control" id="id_title" maxlength="125" name="title" placeholder="Title"
+                                     required="required" title="" type="text" data-cip-id="id_title"></div>
+    </div>
+    <div class="form-group"><label class="col-md-2 control-label" for="id_abstract">Abstract</label>
+
+        <div class="col-md-4"><textarea class="form-control" cols="40" id="id_abstract" name="abstract"
+                                        placeholder="Abstract" required="required" rows="10" title=""></textarea></div>
+    </div>
+    <div class="form-group"><label class="col-md-2 control-label" for="s2id_autogen1">PaperType</label>
+
+        <div class="col-md-4">
+            <div class="select2-container form-control" id="s2id_id_paperType"><a href="javascript:void(0)"
+                                                                                  onclick="return false;"
+                                                                                  class="select2-choice" tabindex="-1">
+                <span class="select2-chosen">---------</span><abbr class="select2-search-choice-close"></abbr> <span
+                    class="select2-arrow"><b></b></span></a><input class="select2-focusser select2-offscreen"
+                                                                   type="text" id="s2id_autogen1"
+                                                                   data-cip-id="s2id_autogen1">
+
+                <div class="select2-drop select2-display-none select2-with-searchbox">
+                    <div class="select2-search"><input type="text" autocomplete="off" autocorrect="off"
+                                                       autocapitalize="off" spellcheck="false" class="select2-input">
+                    </div>
+                    <ul class="select2-results"></ul>
+                </div>
+            </div>
+            <select class="form-control select2-offscreen" id="id_paperType" name="paperType" required="required"
+                    title="" tabindex="-1" data-cip-id="cIPJQ342845640">
+                <option value="" selected="selected">---------</option>
+                <option value="1">Research Paper</option>
+                <option value="2">Work in Progress</option>
+            </select>
+            <link href="./IJCAI2015_files/select2.css" type="text/css" media="screen" rel="stylesheet">
+            <script type="text/javascript" src="./IJCAI2015_files/select2.js"></script>
+            <script type="text/javascript">
+                $(function () {
+                    $("#id_paperType").select2({'closeOnSelect': false, 'allowClear': false, 'minimumResultsForSearch': 6, 'placeholder': ''});
+                });
+            </script>
+        </div>
+    </div>
+    <div class="form-group"><label class="col-md-2 control-label" for="id_paperFile">PaperFile</label>
+
+        <div class="col-md-4">
+            <div class="row bootstrap3-multi-input">
+                <div class="col-xs-12"><input class="" id="id_paperFile" name="paperFile" title="" type="file"></div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group"><label class="col-md-2 control-label" for="s2id_autogen2">Keywords</label>
+
+        <div class="col-md-4">
+            <div class="select2-container select2-container-multi form-control" id="s2id_id_keywords">
+                <ul class="select2-choices">
+                    <li class="select2-search-field"><input type="text" autocomplete="off" autocorrect="off"
+                                                            autocapitalize="off" spellcheck="false"
+                                                            class="select2-input" id="s2id_autogen2"
+                                                            data-cip-id="s2id_autogen2" style="width: 34px;"></li>
+                </ul>
+                <div class="select2-drop select2-drop-multi select2-display-none">
+                    <ul class="select2-results">
+                        <li class="select2-no-results">No matches found</li>
+                    </ul>
+                </div>
+            </div>
+            <select multiple="multiple" class="form-control select2-offscreen" id="id_keywords" name="keywords"
+                    required="required" title="Please select at least one and at most three keywords." tabindex="-1"
+                    data-cip-id="cIPJQ342845641">
+                <optgroup label="Agent-based and Multi-agent Systems">
+                    <option value="4">Agent Communication</option>
+                    <option value="3">Agent-based Simulation and Emergent Behavior</option>
+                    <option value="2">Agent/AI Theories and Architectures</option>
+                    <option value="5">Argumentation</option>
+                    <option value="6">Auctions And Market-Based Systems</option>
+                    <option value="7">Coordination And Collaboration</option>
+                    <option value="8">Distributed AI</option>
+                    <option value="9">E-Commerce</option>
+                    <option value="10">Game Theory</option>
+                    <option value="11">Information/Mobile/Software Agents</option>
+                    <option value="12">Multiagent Learning</option>
+                    <option value="13">Multiagent Planning</option>
+                    <option value="14">Multiagent Systems (General/other)</option>
+                    <option value="15">Negotiation And Contract-Based Systems</option>
+                    <option value="16">Social Choice Theory</option>
+                </optgroup>
+                <optgroup label="Constraints, Satisfiability, and Search">
+                    <option value="18">Applications</option>
+                    <option value="19">Constraint Optimization</option>
+                    <option value="20">Constraint Satisfaction (General/other)</option>
+                    <option value="21">Distributed Search/CSP/Optimization</option>
+                    <option value="22">Dynamic Programming</option>
+                    <option value="24">Global Constraints</option>
+                    <option value="25">Heuristic Search</option>
+                    <option value="27">Meta-Reasoning</option>
+                    <option value="28">Quantifier Formulations</option>
+                    <option value="30">SAT and CSP: Modeling/Formulations</option>
+                    <option value="32">SAT and CSP: Solvers and Tools</option>
+                    <option value="29">Satisfiability (General/other)</option>
+                    <option value="31">Search (General/other)</option>
+                    <option value="23">Search, SAT, CSP: Evaluation and Analysis</option>
+                    <option value="26">Search, SAT, CSP: Meta-heuristics</option>
+                </optgroup>
+                <option value="156">Just a test</option>
+                <optgroup label="Knowledge Representation, Reasoning, and Logic">
+                    <option value="34">Action, Change and Causality</option>
+                    <option value="155">Answer Set Programming</option>
+                    <option value="35">Automated Reasoning and Theorem Proving</option>
+                    <option value="36">Belief Change</option>
+                    <option value="37">Common-Sense Reasoning</option>
+                    <option value="38">Computational Complexity of Reasoning</option>
+                    <option value="39">Description Logics and Ontologies</option>
+                    <option value="40">Diagnosis and Abductive Reasoning</option>
+                    <option value="41">Geometric, Spatial, and Temporal Reasoning</option>
+                    <option value="43">Knowledge Representation (General/other)</option>
+                    <option value="42">Knowledge Representation Languages</option>
+                    <option value="44">Logic Programming</option>
+                    <option value="45">Many-Valued And Fuzzy Logics</option>
+                    <option value="46">Nonmonotonic Reasoning</option>
+                    <option value="47">Preferences</option>
+                    <option value="48">Qualitative Reasoning</option>
+                    <option value="49">Reasoning with Beliefs</option>
+                </optgroup>
+                <optgroup label="Machine Learning and Data Mining">
+                    <option value="51">Active Learning</option>
+                    <option value="52">Case-based Reasoning</option>
+                    <option value="53">Classification</option>
+                    <option value="54">Cost-Sensitive Learning</option>
+                    <option value="55">Data Mining</option>
+                    <option value="56">Ensemble Methods</option>
+                    <option value="57">Evolutionary Computation</option>
+                    <option value="58">Feature Selection/Construction</option>
+                    <option value="59">Kernel Methods</option>
+                    <option value="60">Learning Graphical Models</option>
+                    <option value="61">Learning Preferences/Rankings</option>
+                    <option value="62">Learning Theory</option>
+                    <option value="63">Machine Learning (General/other)</option>
+                    <option value="64">Neural Networks</option>
+                    <option value="65">Online Learning</option>
+                    <option value="66">Reinforcement Learning</option>
+                    <option value="67">Relational Learning</option>
+                    <option value="70">Semi-Supervised/Unsupervised Learning</option>
+                    <option value="71">Structured Learning</option>
+                    <option value="68">Time-series/Data Streams</option>
+                    <option value="69">Transfer, Adaptation, Multi-task Learning</option>
+                </optgroup>
+                <optgroup label="Multidisciplinary Topics">
+                    <option value="73">AI and Natural Sciences</option>
+                    <option value="74">AI and Social Sciences</option>
+                    <option value="75">Art And Music</option>
+                    <option value="76">Autonomic Computing</option>
+                    <option value="77">Cognitive Modeling</option>
+                    <option value="78">Computational Biology</option>
+                    <option value="79">Computer Games</option>
+                    <option value="80">Computer-Aided Education</option>
+                    <option value="81">Database Systems</option>
+                    <option value="83">Human-Computer Interaction</option>
+                    <option value="84">Intelligent User Interfaces</option>
+                    <option value="85">Interactive Entertainment</option>
+                    <option value="86">Personalization and User Modeling</option>
+                    <option value="82">Philosophical and Ethical Issues</option>
+                    <option value="87">Real-Time Systems</option>
+                    <option value="88">Security and Privacy</option>
+                    <option value="89">Validation and Verification</option>
+                </optgroup>
+                <optgroup label="Natural Language Processing">
+                    <option value="91">Dialogue</option>
+                    <option value="92">Discourse</option>
+                    <option value="93">Information Extraction</option>
+                    <option value="94">Information Retrieval</option>
+                    <option value="95">Machine Translation</option>
+                    <option value="96">Morphology and Phonology</option>
+                    <option value="97">Natural Language Generation</option>
+                    <option value="101">Natural Language Processing (General/other)</option>
+                    <option value="98">Natural Language Semantics</option>
+                    <option value="99">Natural Language Summarization</option>
+                    <option value="100">Natural Language Syntax</option>
+                    <option value="102">Psycholinguistics</option>
+                    <option value="103">Question Answering</option>
+                    <option value="104">Speech Recognition And Understanding</option>
+                    <option value="105">Text Classification</option>
+                </optgroup>
+                <optgroup label="Planning and Scheduling">
+                    <option value="107">Activity and Plan Recognition</option>
+                    <option value="108">Hybrid Systems</option>
+                    <option value="109">Markov Decisions Processes</option>
+                    <option value="110">Model-Based Reasoning</option>
+                    <option value="111">POMDPs</option>
+                    <option value="112">Plan Execution And Monitoring</option>
+                    <option value="113">Plan/Workflow Analysis</option>
+                    <option value="116">Planning (General/other)</option>
+                    <option value="114">Planning Algorithms</option>
+                    <option value="115">Planning under Uncertainty</option>
+                    <option value="117">Scheduling</option>
+                    <option value="118">Theoretical Foundations of Planning</option>
+                </optgroup>
+                <optgroup label="Robotics, Sensing, and Vision">
+                    <option value="120">Behavior And Control</option>
+                    <option value="121">Cognitive Robotics</option>
+                    <option value="122">Human Robot Interaction</option>
+                    <option value="123">Localization, Mapping, State Estimation</option>
+                    <option value="124">Manipulation</option>
+                    <option value="125">Motion and Path Planning</option>
+                    <option value="126">Multi-Robot Systems</option>
+                    <option value="127">Robotics</option>
+                    <option value="128">Sensor Networks</option>
+                    <option value="129">Vision and Perception</option>
+                </optgroup>
+                <optgroup label="Uncertainty in AI">
+                    <option value="131">Approximate Probabilistic Inference</option>
+                    <option value="132">Bayesian Networks</option>
+                    <option value="133">Decision/Utility Theory</option>
+                    <option value="134">Exact Probabilistic Inference</option>
+                    <option value="135">Graphical Models</option>
+                    <option value="136">Preference Elicitation</option>
+                    <option value="137">Sequential Decision Making</option>
+                    <option value="138">Uncertainty Representations</option>
+                    <option value="139">Uncertainty in AI (General/other)</option>
+                </optgroup>
+                <optgroup label="Web and Knowledge-based Information Systems">
+                    <option value="141">Information Extraction</option>
+                    <option value="142">Information Integration</option>
+                    <option value="143">Information Retrieval</option>
+                    <option value="144">Knowledge Acquisition</option>
+                    <option value="145">Knowledge Engineering</option>
+                    <option value="146">Knowledge-based Systems (General/other)</option>
+                    <option value="147">Ontologies</option>
+                    <option value="148">Recommender Systems</option>
+                    <option value="149">Semantic Web</option>
+                    <option value="150">Social Networks</option>
+                    <option value="151">Source Wrapping</option>
+                    <option value="152">Web Mining</option>
+                    <option value="153">Web Search</option>
+                    <option value="154">Web Technologies (General/other)</option>
+                </optgroup>
+            </select>
+            <link href="./IJCAI2015_files/select2.css" type="text/css" media="screen" rel="stylesheet">
+            <script type="text/javascript" src="./IJCAI2015_files/select2.js"></script>
+            <script type="text/javascript">
+                $(function () {
+                    $("#id_keywords").select2({'maximumSelectionSize': 3, 'closeOnSelect': true, 'placeholder': ''});
+                });
+            </script><span class="help-block">Please select at least one and at most three keywords.
+</span></div>
+    </div>
+    <div class="col-md-offset-2">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="http://localhost:8003/chair/paper/list/">
+            <button type="button" class="btn btn-default">Cancel</button>
+        </a>
+    </div>
+    </form>
+    </div>
+
+{% endblock %}
