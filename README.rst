@@ -11,7 +11,7 @@ Requirements:
 Installation:
 -------------
 
--  pip install django-bootstrap-dynamic-formsets-0.4.2.zip
+-  pip install django-bootstrap-dynamic-formsets
 
 Usage:
 ------
