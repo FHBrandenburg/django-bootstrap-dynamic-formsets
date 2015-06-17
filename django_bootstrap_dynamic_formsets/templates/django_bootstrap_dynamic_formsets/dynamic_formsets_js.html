@@ -73,7 +73,7 @@
         //$('body').prepend('<p>Count: ' + sortItemCounter + '</p>');
 
         //Mark initial forms as such
-        var numInitialForms = $('#id_form-INITIAL_FORMS').val();
+        var numInitialForms = $('#id_{{formset.prefix}}-INITIAL_FORMS').val();
         var i = 0;
         $sortItem.each(function () {
             if (i < numInitialForms) {
@@ -84,7 +84,7 @@
             }
         });
 
-        var numTotalForms = $('#id_form-TOTAL_FORMS').val();
+        var numTotalForms = $('#id_{{formset.prefix}}-TOTAL_FORMS').val();
         //Fix order (important if page reloads after validation failed)
         for (i = 1; i < numTotalForms; i++) {
             $sortItem.find('[id$=ORDER][value=' + (i + 1) + ']').parents(".sort-item").insertAfter($sortItem.find('[id$=ORDER][value=' + i + ']').parents(".sort-item"));
@@ -137,7 +137,7 @@
                 $parentSortItem.effect('drop', function () {
                     $(this).remove();
                     sortItemCounter--;
-                    $('#id_form-TOTAL_FORMS').attr('value', sortItemCounter);
+                    $('#id_{{formset.prefix}}-TOTAL_FORMS').attr('value', sortItemCounter);
                 });
             }
         });
@@ -149,7 +149,7 @@
             formCopy.html(formCopyString);
             sortItemCounter++;
             $(this).parents(".sort-item").after(formCopy);
-            $('#id_form-TOTAL_FORMS').attr('value', sortItemCounter);
+            $('#id_{{formset.prefix}}-TOTAL_FORMS').attr('value', sortItemCounter);
         });
 
         //Submit formset
