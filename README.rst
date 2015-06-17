@@ -129,3 +129,8 @@ Finally, let's write the template. This is actually very easy:
     ...
 
 That's it!
+
+Thanks to all contributors:
+---------------------------
+
+-   mattions
