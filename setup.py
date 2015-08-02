@@ -8,7 +8,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-bootstrap-dynamic-formsets',
-    version='0.4.4',
+    version='0.4.5',
     packages=['django_bootstrap_dynamic_formsets','django_bootstrap_dynamic_formsets.templatetags'],
     install_requires=['Django','django-bootstrap3',],
     include_package_data=True,

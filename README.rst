@@ -134,3 +134,4 @@ Thanks to all contributors:
 ---------------------------
 
 -   mattions
+-   singalen
