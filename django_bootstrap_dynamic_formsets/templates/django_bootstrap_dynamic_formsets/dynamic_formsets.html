@@ -8,7 +8,7 @@
 
 <div class="display:none" id="empty-form">
     <div class="{{ form_wrapper }} sort-item">
-        {% bootstrap_form formset.empty_form layout=layout%}
+        {% bootstrap_form formset.empty_form form_group_class=form_group_class layout=layout%}
         <div>
             {% if can_order %}
                 <button type="button" class="btn btn-default btn-sm sort-handle glyph-button"><span class="glyphicon glyphicon-move" style="vertical-align:middle"></span></button>
@@ -27,7 +27,7 @@
     {{ formset.management_form }}
     {% for form in formset %}
         <div class="{{ form_wrapper }} sort-item">
-            {% bootstrap_form form layout=layout%}
+            {% bootstrap_form form form_group_class=form_group_class layout=layout%}
             <div>
                 {% if can_order %}
                     <button type="button" class="btn btn-default btn-sm sort-handle glyph-button"><span class="glyphicon glyphicon-move" style="vertical-align:middle"></span></button>
