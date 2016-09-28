@@ -42,18 +42,18 @@
         $("[id$=DELETE]").parents(".form-group").hide();
 
         //Holds an empty form
-        var $emptyForm = $('#empty-form').remove().children().unwrap();
+        var $emptyForm = $('#{{formset.prefix}}-empty-form').remove().children().unwrap();
 
-        var $sortItem = $('.sort-item');
+        var $sortItem = $('.sort-item.{{formset.prefix}}');
 
         //Disable Up button on first and Down button on last form
         var setUpDownButtons = function () {
-            $sortItem = $('.sort-item');
-            $sortItem.find(".up-form, .down-form").each(function () {
+            $sortItem = $('.sort-item.{{formset.prefix}}');
+            $sortItem.find(".up-form-{{formset.prefix}}, .down-form-{{formset.prefix}}").each(function () {
                 $(this).prop("disabled", false);
             });
-            $sortItem.first().find(".up-form").prop("disabled", true);
-            $sortItem.last().find(".down-form").prop("disabled", true);
+            $sortItem.first().find(".up-form-{{formset.prefix}}").prop("disabled", true);
+            $sortItem.last().find(".down-form-{{formset.prefix}}").prop("disabled", true);
         };
 
 
@@ -70,7 +70,7 @@
         $sortItem.each(function () {
             sortItemCounter++;
         });
-        //$('body').prepend('<p>Count: ' + sortItemCounter + '</p>');
+        //$('body').prepend('<p>Count ({{formset.prefix}}): ' + sortItemCounter + '</p>');
 
         //Mark initial forms as such
         var numInitialForms = $('#id_{{formset.prefix}}-INITIAL_FORMS').val();
@@ -97,7 +97,7 @@
             var $sortable = $('#sortable');
 
             $sortable.sortable({
-                items: ".sort-item",
+                items: ".sort-item.{{formset.prefix}}",
                 axis: "y",
                 scrollSensitivity: 100,
                 scrollSpeed: 5,
@@ -110,13 +110,13 @@
             });
             setUpDownButtons();
 
-            $(document).on('click', '.up-form', function () {
+            $(document).on('click', '.up-form-{{formset.prefix}}', function () {
                 var $parentSortItem = $(this).parents(".sort-item");
                 $parentSortItem.insertBefore($parentSortItem.prev());
                 setUpDownButtons();
             });
 
-            $(document).on('click', '.down-form', function () {
+            $(document).on('click', '.down-form-{{formset.prefix}}', function () {
                 var $parentSortItem = $(this).parents(".sort-item");
                 $parentSortItem.insertAfter($parentSortItem.next());
                 setUpDownButtons();
@@ -128,22 +128,25 @@
 
 
         // Remove form
-        $(document).on('click', '.delete-form', function () {
+        $(document).on('click', '.delete-form-{{formset.prefix}}', function () {
+        	console.log("Attempting to delete form {{formset.prefix}}");
+        	console.log($(this));
             var $parentSortItem = $(this).parents(".sort-item");
-            if ($parentSortItem.hasClass('initial-form')) {
+            if ($parentSortItem.hasClass('{{formset.prefix}}-initial-form')) {
                 $parentSortItem.effect('drop');
                 $parentSortItem.find('[id$=DELETE]').prop('checked', true);
             } else {
                 $parentSortItem.effect('drop', function () {
                     $(this).remove();
                     sortItemCounter--;
+                    console.log(sortItemCounter);
                     $('#id_{{formset.prefix}}-TOTAL_FORMS').attr('value', sortItemCounter);
                 });
             }
         });
 
         // Add form
-        $(document).on('click', '.add-form', function () {
+        $(document).on('click', '.add-form-{{formset.prefix}}', function () {
             var formCopy = $emptyForm.clone();
             var formCopyString = formCopy.html().replace(/__prefix__/g, "" + sortItemCounter);
             formCopy.html(formCopyString);
@@ -153,11 +156,16 @@
         });
 
         //Submit formset
-        $('#form-submit').click(function (e) {
+        $('#form-submit-{{formset.prefix}}').click(function (e) {
             e.preventDefault();
-            $('.sort-item').each(function () {
+            $('.sort-item.{{formset.prefix}}').each(function () {
                 if (allEmpty($(this))) {
+                	console.log("I'm all empty, so removing myself!")
                     $(this).remove();
+                }
+                else
+                {
+                	console.log("Not empty, so not removing!")
                 }
             });
             {% if can_order %}
