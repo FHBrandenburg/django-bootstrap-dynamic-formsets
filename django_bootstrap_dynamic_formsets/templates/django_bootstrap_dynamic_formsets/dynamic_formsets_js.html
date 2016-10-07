@@ -42,18 +42,18 @@
         $("[id$=DELETE]").parents(".form-group").hide();
 
         //Holds an empty form
-        var $emptyForm = $('#{{formset.prefix}}-empty-form').remove().children().unwrap();
+        var $emptyForm = $('#{% if formset.prefix %}{{formset.prefix}}-{% endif %}empty-form').remove().children().unwrap();
 
         var $sortItem = $('.sort-item.{{formset.prefix}}');
 
         //Disable Up button on first and Down button on last form
         var setUpDownButtons = function () {
             $sortItem = $('.sort-item.{{formset.prefix}}');
-            $sortItem.find(".up-form-{{formset.prefix}}, .down-form-{{formset.prefix}}").each(function () {
+            $sortItem.find(".up-form{% if formset.prefix %}-{{formset.prefix}}{% endif %}, .down-form{% if formset.prefix %}-{{formset.prefix}}{% endif %}").each(function () {
                 $(this).prop("disabled", false);
             });
-            $sortItem.first().find(".up-form-{{formset.prefix}}").prop("disabled", true);
-            $sortItem.last().find(".down-form-{{formset.prefix}}").prop("disabled", true);
+            $sortItem.first().find(".up-form{% if formset.prefix %}-{{formset.prefix}}{% endif %}").prop("disabled", true);
+            $sortItem.last().find(".down-form{% if formset.prefix %}-{{formset.prefix}}{% endif %}").prop("disabled", true);
         };
 
 
@@ -73,7 +73,7 @@
         //$('body').prepend('<p>Count ({{formset.prefix}}): ' + sortItemCounter + '</p>');
 
         //Mark initial forms as such
-        var numInitialForms = $('#id_{{formset.prefix}}-INITIAL_FORMS').val();
+        var numInitialForms = $('#id_{% if formset.prefix %}{{formset.prefix}}-{% endif %}INITIAL_FORMS').val();
         var i = 0;
         $sortItem.each(function () {
             if (i < numInitialForms) {
@@ -84,7 +84,7 @@
             }
         });
 
-        var numTotalForms = $('#id_{{formset.prefix}}-TOTAL_FORMS').val();
+        var numTotalForms = $('#id_{% if formset.prefix %}{{formset.prefix}}-{% endif %}TOTAL_FORMS').val();
         //Fix order (important if page reloads after validation failed)
         for (i = 1; i < numTotalForms; i++) {
             $sortItem.find('[id$=ORDER][value=' + (i + 1) + ']').parents(".sort-item").insertAfter($sortItem.find('[id$=ORDER][value=' + i + ']').parents(".sort-item"));
@@ -110,13 +110,13 @@
             });
             setUpDownButtons();
 
-            $(document).on('click', '.up-form-{{formset.prefix}}', function () {
+            $(document).on('click', '.up-form{% if formset.prefix %}-{{formset.prefix}}{% endif %}', function () {
                 var $parentSortItem = $(this).parents(".sort-item");
                 $parentSortItem.insertBefore($parentSortItem.prev());
                 setUpDownButtons();
             });
 
-            $(document).on('click', '.down-form-{{formset.prefix}}', function () {
+            $(document).on('click', '.down-form{% if formset.prefix %}-{{formset.prefix}}{% endif %}', function () {
                 var $parentSortItem = $(this).parents(".sort-item");
                 $parentSortItem.insertAfter($parentSortItem.next());
                 setUpDownButtons();
@@ -128,11 +128,11 @@
 
 
         // Remove form
-        $(document).on('click', '.delete-form-{{formset.prefix}}', function () {
+        $(document).on('click', '.delete-form{% if formset.prefix %}-{{formset.prefix}}{% endif %}', function () {
         	console.log("Attempting to delete form {{formset.prefix}}");
         	console.log($(this));
             var $parentSortItem = $(this).parents(".sort-item");
-            if ($parentSortItem.hasClass('{{formset.prefix}}-initial-form')) {
+            if ($parentSortItem.hasClass('{% if formset.prefix %}{{formset.prefix}}-{% endif %}initial-form')) {
                 $parentSortItem.effect('drop');
                 $parentSortItem.find('[id$=DELETE]').prop('checked', true);
             } else {
@@ -140,23 +140,23 @@
                     $(this).remove();
                     sortItemCounter--;
                     console.log(sortItemCounter);
-                    $('#id_{{formset.prefix}}-TOTAL_FORMS').attr('value', sortItemCounter);
+                    $('#id_{% if formset.prefix %}{{formset.prefix}}-{% endif %}TOTAL_FORMS').attr('value', sortItemCounter);
                 });
             }
         });
 
         // Add form
-        $(document).on('click', '.add-form-{{formset.prefix}}', function () {
+        $(document).on('click', '.add-form{% if formset.prefix %}-{{formset.prefix}}{% endif %}', function () {
             var formCopy = $emptyForm.clone();
             var formCopyString = formCopy.html().replace(/__prefix__/g, "" + sortItemCounter);
             formCopy.html(formCopyString);
             sortItemCounter++;
             $(this).parents(".sort-item").after(formCopy);
-            $('#id_{{formset.prefix}}-TOTAL_FORMS').attr('value', sortItemCounter);
+            $('#id_{% if formset.prefix %}{{formset.prefix}}-{% endif %}TOTAL_FORMS').attr('value', sortItemCounter);
         });
 
         //Submit formset
-        $('#form-submit-{{formset.prefix}}').click(function (e) {
+        $('#form-submit-{% if formset.prefix %}{{formset.prefix}}{% endif %}').click(function (e) {
             e.preventDefault();
             $('.sort-item.{{formset.prefix}}').each(function () {
                 if (allEmpty($(this))) {
