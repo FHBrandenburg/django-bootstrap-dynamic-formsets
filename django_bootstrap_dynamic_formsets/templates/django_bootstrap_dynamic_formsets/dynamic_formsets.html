@@ -23,7 +23,7 @@
     </div>
 </div>
 
-<div id="sortable">
+<div id="sortable{% if formset.prefix %}-{{formset.prefix}}{% endif %}">
     {{ formset.management_form }}
     {% for form in formset %}
         <div class="{{ form_wrapper }} sort-item {{formset.prefix}}">

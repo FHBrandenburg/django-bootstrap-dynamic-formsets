@@ -94,7 +94,7 @@
         //Set up sortable jQuery UI interaction
         {% if can_order %}
 
-            var $sortable = $('#sortable');
+            var $sortable = $('#sortable{% if formset.prefix %}-{{formset.prefix}}{% endif %}');
 
             $sortable.sortable({
                 items: ".sort-item.{{formset.prefix}}",
@@ -102,7 +102,7 @@
                 scrollSensitivity: 100,
                 scrollSpeed: 5,
                 tolerance: "intersect",
-                handle: ".sort-handle",
+                handle: ".sort-handle{% if formset.prefix %}-{{formset.prefix}}{% endif %}",
                 cancel: "input,textarea,select,option"
             });
             $sortable.on("sortupdate", function (event, ui) {
