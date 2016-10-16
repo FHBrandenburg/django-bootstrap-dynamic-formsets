@@ -8,7 +8,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-bootstrap-dynamic-formsets',
-    version='0.4.5',
+    version='0.5.0',
     packages=['django_bootstrap_dynamic_formsets','django_bootstrap_dynamic_formsets.templatetags'],
     install_requires=['Django','django-bootstrap3',],
     include_package_data=True,
@@ -16,7 +16,7 @@ setup(
     description='JavaScript-enhanced dynamic formsets using Bootstrap',
     url='https://github.com/FHBrandenburg/django-bootstrap-dynamic-formsets',
     author='Daniel Weis',
-    author_email='weisd@fh-brandenburg.de',
+    author_email='weisd@th-brandenburg.de',
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
