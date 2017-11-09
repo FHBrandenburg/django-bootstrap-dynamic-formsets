@@ -77,7 +77,7 @@
         var i = 0;
         $sortItem.each(function () {
             if (i < numInitialForms) {
-                $(this).addClass("initial-form");
+                $(this).addClass("{% if formset.prefix %}{{formset.prefix}}-{% endif %}initial-form");
                 i++;
             } else {
                 return false;
