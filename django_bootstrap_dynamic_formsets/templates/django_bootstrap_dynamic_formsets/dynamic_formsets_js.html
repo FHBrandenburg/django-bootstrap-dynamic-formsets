@@ -146,7 +146,8 @@
         });
 
         // Add form
-        $(document).on('click', '.add-form{% if formset.prefix %}-{{formset.prefix}}{% endif %}', function () {
+        $(document).off('click', '.add-form{% if formset.prefix %}-{{formset.prefix}}{% endif %}')
+                    .on('click', '.add-form{% if formset.prefix %}-{{formset.prefix}}{% endif %}', function () {
             var formCopy = $emptyForm.clone();
             var formCopyString = formCopy.html().replace(/__prefix__/g, "" + sortItemCounter);
             formCopy.html(formCopyString);
