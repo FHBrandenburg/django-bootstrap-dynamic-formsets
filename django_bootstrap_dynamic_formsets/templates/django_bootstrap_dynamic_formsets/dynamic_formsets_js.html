@@ -140,7 +140,7 @@
                     $(this).remove();
                     sortItemCounter--;
                     console.log(sortItemCounter);
-                    $('#id_{% if formset.prefix %}{{formset.prefix}}-{% endif %}TOTAL_FORMS').attr('value', sortItemCounter);
+                    $('[id=id_{% if formset.prefix %}{{formset.prefix}}-{% endif %}TOTAL_FORMS]').attr('value', sortItemCounter);
                 });
             }
         });
@@ -153,7 +153,7 @@
             formCopy.html(formCopyString);
             sortItemCounter++;
             $(this).parents(".sort-item").after(formCopy);
-            $('#id_{% if formset.prefix %}{{formset.prefix}}-{% endif %}TOTAL_FORMS').attr('value', sortItemCounter);
+            $('[id=id_{% if formset.prefix %}{{formset.prefix}}-{% endif %}TOTAL_FORMS]').attr('value', sortItemCounter);
         });
 
         //Submit formset
