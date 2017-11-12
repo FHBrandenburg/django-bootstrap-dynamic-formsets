@@ -35,7 +35,9 @@
                 $deleteButton.hide();
             else
                 $deleteButton.show();
-        }
+        };
+        // Check this on the load
+        hideDeleteButtonOnLastItem();
 
         //Writes the correct current order in the order form fields
         var correctOrder = function () {
