@@ -27,6 +27,15 @@
             return isEmpty;
         };
 
+        // Hide delete button on last item
+        var hideDeleteButtonOnLastItem = function () {
+            var $deleteButton = $('button[class*=delete]');
+            var formCount = $('.sort-item:visible').size();
+            if(formCount < 2)
+                $deleteButton.hide();
+            else
+                $deleteButton.show();
+        }
 
         //Writes the correct current order in the order form fields
         var correctOrder = function () {
@@ -133,7 +142,9 @@
         	console.log($(this));
             var $parentSortItem = $(this).parents(".sort-item");
             if ($parentSortItem.hasClass('{% if formset.prefix %}{{formset.prefix}}-{% endif %}initial-form')) {
-                $parentSortItem.effect('drop');
+                $parentSortItem.effect('drop', function(){
+                    hideDeleteButtonOnLastItem();
+                });
                 $parentSortItem.find('[id$=DELETE]').prop('checked', true);
             } else {
                 $parentSortItem.effect('drop', function () {
@@ -141,8 +152,10 @@
                     sortItemCounter--;
                     console.log(sortItemCounter);
                     $('[id=id_{% if formset.prefix %}{{formset.prefix}}-{% endif %}TOTAL_FORMS]').attr('value', sortItemCounter);
+                    hideDeleteButtonOnLastItem();
                 });
             }
+            
         });
 
         // Add form
@@ -154,6 +167,7 @@
             sortItemCounter++;
             $(this).parents(".sort-item").after(formCopy);
             $('[id=id_{% if formset.prefix %}{{formset.prefix}}-{% endif %}TOTAL_FORMS]').attr('value', sortItemCounter);
+            hideDeleteButtonOnLastItem();
         });
 
         //Submit formset
