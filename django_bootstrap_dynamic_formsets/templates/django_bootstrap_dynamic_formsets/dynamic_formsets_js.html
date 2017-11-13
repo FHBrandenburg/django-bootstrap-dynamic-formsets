@@ -27,6 +27,17 @@
             return isEmpty;
         };
 
+        // Hide delete button on last item
+        var hideDeleteButtonOnLastItem = function () {
+            var $deleteButton = $('button[class*=delete]');
+            var formCount = $('.sort-item:visible').size();
+            if(formCount < 2)
+                $deleteButton.hide();
+            else
+                $deleteButton.show();
+        };
+        // Check this on the load
+        hideDeleteButtonOnLastItem();
 
         //Writes the correct current order in the order form fields
         var correctOrder = function () {
@@ -77,7 +88,7 @@
         var i = 0;
         $sortItem.each(function () {
             if (i < numInitialForms) {
-                $(this).addClass("initial-form");
+                $(this).addClass("{% if formset.prefix %}{{formset.prefix}}-{% endif %}initial-form");
                 i++;
             } else {
                 return false;
@@ -133,26 +144,32 @@
         	console.log($(this));
             var $parentSortItem = $(this).parents(".sort-item");
             if ($parentSortItem.hasClass('{% if formset.prefix %}{{formset.prefix}}-{% endif %}initial-form')) {
-                $parentSortItem.effect('drop');
+                $parentSortItem.effect('drop', function(){
+                    hideDeleteButtonOnLastItem();
+                });
                 $parentSortItem.find('[id$=DELETE]').prop('checked', true);
             } else {
                 $parentSortItem.effect('drop', function () {
                     $(this).remove();
                     sortItemCounter--;
                     console.log(sortItemCounter);
-                    $('#id_{% if formset.prefix %}{{formset.prefix}}-{% endif %}TOTAL_FORMS').attr('value', sortItemCounter);
+                    $('[id=id_{% if formset.prefix %}{{formset.prefix}}-{% endif %}TOTAL_FORMS]').attr('value', sortItemCounter);
+                    hideDeleteButtonOnLastItem();
                 });
             }
+            
         });
 
         // Add form
-        $(document).on('click', '.add-form{% if formset.prefix %}-{{formset.prefix}}{% endif %}', function () {
+        $(document).off('click', '.add-form{% if formset.prefix %}-{{formset.prefix}}{% endif %}')
+                    .on('click', '.add-form{% if formset.prefix %}-{{formset.prefix}}{% endif %}', function () {
             var formCopy = $emptyForm.clone();
             var formCopyString = formCopy.html().replace(/__prefix__/g, "" + sortItemCounter);
             formCopy.html(formCopyString);
             sortItemCounter++;
             $(this).parents(".sort-item").after(formCopy);
-            $('#id_{% if formset.prefix %}{{formset.prefix}}-{% endif %}TOTAL_FORMS').attr('value', sortItemCounter);
+            $('[id=id_{% if formset.prefix %}{{formset.prefix}}-{% endif %}TOTAL_FORMS]').attr('value', sortItemCounter);
+            hideDeleteButtonOnLastItem();
         });
 
         //Submit formset
